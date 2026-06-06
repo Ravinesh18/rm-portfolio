@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alex Morgan — Software Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0e0d;
+    --ink-soft: #4a4845;
+    --ink-muted: #9a9690;
+    --paper: #f5f3ef;
+    --paper-warm: #ede9e1;
+    --paper-card: #faf9f7;
+    --accent: #c94f2c;
+    --accent-light: #f0e0d8;
+    --green: #2d6a4f;
+    --green-light: #d8ede5;
+    --blue: #1a3a5c;
+    --blue-light: #d8e6f2;
+    --gold: #b8860b;
+    --gold-light: #f5edcc;
+    --border: rgba(15,14,13,0.12);
+    --border-strong: rgba(15,14,13,0.22);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Instrument Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 3rem;
+    background: rgba(245,243,239,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink-soft);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 50%;
+    height: 100%;
+    background: var(--paper-warm);
+    z-index: 0;
+  }
+  .hero-left {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 6rem 4rem 6rem 5rem;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-bio {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+    line-height: 1.75;
+  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; }
+  .btn-primary {
+    display: inline-block;
+    padding: 0.75rem 1.75rem;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+  .btn-ghost {
+    display: inline-block;
+    padding: 0.75rem 1.75rem;
+    border: 1px solid var(--border-strong);
+    color: var(--ink);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-right {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 6rem 4rem 4rem;
+    gap: 1.5rem;
+  }
+  .stat-stack {
+    display: flex; flex-direction: column; gap: 1rem;
+    margin-bottom: auto; padding-top: 8rem;
+  }
+  .stat-item {
+    display: flex; align-items: baseline; gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .stat-label {
+    font-size: 0.82rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.04em;
+  }
+  .hero-tech-strip {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    padding: 1.5rem;
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  .tech-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 0.7rem;
+    background: var(--paper-warm);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--ink-soft);
+    transition: background 0.2s, color 0.2s;
+  }
+  .tech-tag:hover { background: var(--ink); color: var(--paper); }
+
+  /* ── SECTION SHELL ── */
+  section { padding: 6rem 5rem; }
+  .section-header {
+    display: flex; align-items: baseline; gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  /* ── ABOUT ── */
+  .about { background: var(--paper-card); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+  }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .skill-block {
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--paper);
+  }
+  .skill-block-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.75rem;
+  }
+  .skill-list {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    line-height: 1.9;
+  }
+
+  /* ── PROJECTS ── */
+  .projects { background: var(--paper); }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .project-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(15,14,13,0.08);
+  }
+  .project-card.featured {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    padding: 2.5rem;
+  }
+  .project-card::after {
+    content: '↗';
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    font-size: 1rem;
+    color: var(--ink-muted);
+    transition: color 0.2s, transform 0.2s;
+  }
+  .project-card:hover::after { color: var(--accent); transform: translate(2px, -2px); }
+
+  .project-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+  }
+  .tag-backend { background: var(--blue-light); color: var(--blue); }
+  .tag-frontend { background: var(--green-light); color: var(--green); }
+  .tag-ml { background: var(--gold-light); color: var(--gold); }
+  .tag-infra { background: var(--accent-light); color: var(--accent); }
+
+  .project-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+    color: var(--ink);
+  }
+  .project-desc {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+  .project-metrics {
+    display: flex; gap: 1.5rem; flex-wrap: wrap;
+  }
+  .metric {
+    display: flex; flex-direction: column; gap: 0.1rem;
+  }
+  .metric-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    color: var(--ink);
+  }
+  .metric-key {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .project-stack {
+    display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem;
+  }
+  .stack-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    padding: 0.2rem 0.55rem;
+    background: var(--paper-warm);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    color: var(--ink-soft);
+  }
+
+  .project-visual {
+    display: flex; align-items: center; justify-content: center;
+    background: var(--paper-warm);
+    border-radius: 4px;
+    min-height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+  .code-snippet {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    padding: 1.5rem;
+    width: 100%;
+  }
+  .code-kw { color: var(--accent); }
+  .code-fn { color: var(--blue); }
+  .code-str { color: var(--green); }
+  .code-comment { color: var(--ink-muted); }
+
+  /* ── EXPERIENCE ── */
+  .experience { background: var(--ink); color: var(--paper); }
+  .experience h2 { color: var(--paper); }
+  .experience .section-num { color: rgba(245,243,239,0.3); }
+  .timeline { position: relative; padding-left: 2.5rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: rgba(245,243,239,0.12);
+  }
+  .timeline-item {
+    position: relative;
+    padding: 0 0 3rem 2rem;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -3.5px; top: 0.35rem;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .timeline-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: rgba(245,243,239,0.38);
+    margin-bottom: 0.4rem;
+  }
+  .timeline-role {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.35rem;
+    color: var(--paper);
+    margin-bottom: 0.2rem;
+  }
+  .timeline-company {
+    font-size: 0.88rem;
+    color: var(--accent);
+    margin-bottom: 0.85rem;
+  }
+  .timeline-bullets {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 0.45rem;
+  }
+  .timeline-bullets li {
+    font-size: 0.88rem;
+    color: rgba(245,243,239,0.65);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.6;
+  }
+  .timeline-bullets li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: rgba(245,243,239,0.25);
+    font-size: 0.75rem;
+  }
+
+  /* ── CONTACT ── */
+  .contact { background: var(--paper-warm); }
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .contact-headline {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+  .contact-headline em { font-style: italic; color: var(--accent); }
+  .contact-sub {
+    font-size: 1rem;
+    color: var(--ink-soft);
+    line-height: 1.75;
+    margin-bottom: 2rem;
+    max-width: 420px;
+  }
+  .contact-links {
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    text-decoration: none; color: var(--ink);
+    padding: 1rem 1.25rem;
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: border-color 0.2s, transform 0.15s;
+    font-size: 0.9rem;
+  }
+  .contact-link:hover { border-color: var(--accent); transform: translateX(4px); }
+  .contact-link-icon {
+    font-size: 1.1rem;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--paper-warm);
+    border-radius: 50%;
+  }
+  .contact-link-label { flex: 1; }
+  .contact-link-label strong { display: block; font-weight: 500; }
+  .contact-link-label span { font-size: 0.8rem; color: var(--ink-muted); }
+  .contact-link-arrow { color: var(--ink-muted); font-size: 0.9rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(245,243,239,0.35);
+    padding: 2rem 5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes reveal { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0% 0 0); } }
+
+  /* ── CURSOR DOT ── */
+  .cursor {
+    position: fixed; pointer-events: none; z-index: 9999;
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s linear, width 0.2s, height 0.2s, opacity 0.2s;
+  }
+  .cursor-ring {
+    position: fixed; pointer-events: none; z-index: 9998;
+    width: 32px; height: 32px;
+    border: 1px solid rgba(201,79,44,0.4);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.18s ease, width 0.3s, height 0.3s;
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">RM.dev</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Available for opportunities</div>
+    <h1>Ravinesh<br><em>Mishra</em></h1>
+    <p class="hero-bio">Software engineer building high-scale distributed systems and developer tools. I care deeply about engineering craft, system design, and writing code that lasts.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-stack">
+      <div class="stat-item">
+        <span class="stat-num">1.5+</span>
+        <span class="stat-label">Years of industry experience</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">40M</span>
+        <span class="stat-label">Requests per day served</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">3×</span>
+        <span class="stat-label">Systems rebuilt for scale</span>
+      </div>
+    </div>
+    <div class="hero-tech-strip">
+      <span class="tech-tag">Go</span>
+      <span class="tech-tag">Rust</span>
+      <span class="tech-tag">TypeScript</span>
+      <span class="tech-tag">Python</span>
+      <span class="tech-tag">PostgreSQL</span>
+      <span class="tech-tag">Redis</span>
+      <span class="tech-tag">Kafka</span>
+      <span class="tech-tag">Kubernetes</span>
+      <span class="tech-tag">AWS</span>
+      <span class="tech-tag">gRPC</span>
+      <span class="tech-tag">GraphQL</span>
+      <span class="tech-tag">React</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-header fade-up">
+    <span class="section-num">01</span>
+    <h2>About me</h2>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-text fade-up">
+
+      <p>
+        I'm a Software Engineer passionate about building scalable web applications, backend services, and modern digital experiences. My expertise spans full-stack development, API design, system architecture, and automation, with a strong focus on writing clean, maintainable, and efficient code.
+      </p>
+
+      <p>
+        Throughout my career, I've worked across the software development lifecycle, designing and developing applications using technologies such as JavaScript, TypeScript, React, Next.js, Node.js, Express.js, and MongoDB. I enjoy turning complex business requirements into reliable and user-friendly solutions that deliver measurable value.
+      </p>
+
+      <p>
+        Beyond day-to-day development, I actively explore emerging technologies including Generative AI, Retrieval-Augmented Generation (RAG), Agentic AI, cloud-native architectures, and DevOps practices. I'm passionate about improving developer productivity, automating workflows, and building systems that scale efficiently.
+      </p>
+
+      <p>
+        Outside of work, I continuously sharpen my skills through personal projects, open-source contributions, and technical research. I enjoy solving challenging engineering problems, learning new technologies, and building software that creates meaningful impact.
+      </p>
+
+    </div>
+
+    <div class="skills-grid fade-up">
+
+      <div class="skill-block">
+        <div class="skill-block-title">Frontend</div>
+        <div class="skill-list">
+          React · Next.js · TypeScript<br>
+          JavaScript · HTML · CSS<br>
+          Tailwind CSS · Shadcn UI
+        </div>
+      </div>
+
+      <div class="skill-block">
+        <div class="skill-block-title">Backend</div>
+        <div class="skill-list">
+          Node.js · Express.js<br>
+          REST APIs · Authentication<br>
+          Microservices · API Design
+        </div>
+      </div>
+
+      <div class="skill-block">
+        <div class="skill-block-title">Database & Cloud</div>
+        <div class="skill-list">
+          MongoDB · PostgreSQL<br>
+          AWS · Docker<br>
+          CI/CD · Cloud Deployments
+        </div>
+      </div>
+
+      <div class="skill-block">
+        <div class="skill-block-title">AI & Engineering</div>
+        <div class="skill-list">
+          Generative AI · RAG<br>
+          LangChain · Agentic AI<br>
+          Automation · System Design
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="section-header fade-up">
+    <span class="section-num">02</span>
+    <h2>Selected work</h2>
+  </div>
+  <div class="projects-grid">
+
+    <!-- Featured -->
+    <a class="project-card featured fade-up" href="#">
+      <div class="project-info">
+        <span class="project-tag tag-backend">Backend · Infra</span>
+        <h3 class="project-title">Hermes — Real-time Payments Engine</h3>
+        <p class="project-desc">End-to-end redesign of a payment processing core for a Series B fintech. Replaced a monolithic Rails app with a distributed Go service mesh, event-sourcing architecture, and idempotent transaction log.</p>
+        <div class="project-metrics">
+          <div class="metric">
+            <span class="metric-val">99.999%</span>
+            <span class="metric-key">Uptime SLA</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">2.3ms</span>
+            <span class="metric-key">Median latency</span>
+          </div>
+          <div class="metric">
+            <span class="metric-val">12×</span>
+            <span class="metric-key">Throughput gain</span>
+          </div>
+        </div>
+        <div class="project-stack">
+          <span class="stack-pill">Go</span>
+          <span class="stack-pill">Kafka</span>
+          <span class="stack-pill">CockroachDB</span>
+          <span class="stack-pill">Kubernetes</span>
+          <span class="stack-pill">Temporal</span>
+        </div>
+      </div>
+      <div class="project-visual">
+        <div class="code-snippet">
+<span class="code-comment">// idempotent transaction handler</span>
+<span class="code-kw">func</span> <span class="code-fn">ProcessPayment</span>(ctx context.Context,
+    req *PaymentRequest) (*Receipt, <span class="code-kw">error</span>) {
+
+  lock := <span class="code-fn">acquireIdempotencyLock</span>(
+    ctx, req.IdempotencyKey)
+  <span class="code-kw">defer</span> lock.<span class="code-fn">Release</span>()
+
+  <span class="code-kw">if</span> existing := <span class="code-fn">checkExisting</span>(ctx, req); existing != <span class="code-kw">nil</span> {
+    <span class="code-kw">return</span> existing, <span class="code-kw">nil</span>
+  }
+
+  txn := <span class="code-fn">beginEventSourcedTxn</span>(ctx)
+  <span class="code-kw">defer</span> txn.<span class="code-fn">Rollback</span>()
+
+  receipt, err := txn.<span class="code-fn">Execute</span>(req)
+  <span class="code-kw">if</span> err != <span class="code-kw">nil</span> {
+    <span class="code-kw">return</span> <span class="code-kw">nil</span>, <span class="code-fn">wrapErr</span>(err)
+  }
+
+  <span class="code-kw">return</span> receipt, txn.<span class="code-fn">Commit</span>()
+}</div>
+      </div>
+    </a>
+
+    <!-- Card 2 -->
+    <a class="project-card fade-up" href="#">
+      <span class="project-tag tag-frontend">Frontend · DX</span>
+      <h3 class="project-title">Prism — Component Design System</h3>
+      <p class="project-desc">Open-source React component library adopted by 60+ internal teams. Includes a token-based theming engine, Storybook integration, and automated visual regression tests.</p>
+      <div class="project-metrics">
+        <div class="metric">
+          <span class="metric-val">200+</span>
+          <span class="metric-key">Components</span>
+        </div>
+        <div class="metric">
+          <span class="metric-val">4.8k</span>
+          <span class="metric-key">GitHub stars</span>
+        </div>
+      </div>
+      <div class="project-stack">
+        <span class="stack-pill">React</span>
+        <span class="stack-pill">TypeScript</span>
+        <span class="stack-pill">CSS vars</span>
+        <span class="stack-pill">Playwright</span>
+      </div>
+    </a>
+
+    <!-- Card 3 -->
+    <a class="project-card fade-up" href="#">
+      <span class="project-tag tag-ml">ML · Data</span>
+      <h3 class="project-title">Beacon — Anomaly Detection Platform</h3>
+      <p class="project-desc">Near-real-time fraud detection pipeline processing 5M events/min. Uses streaming feature computation and an online learning model served via a low-latency Go inference engine.</p>
+      <div class="project-metrics">
+        <div class="metric">
+          <span class="metric-val">5M</span>
+          <span class="metric-key">Events / min</span>
+        </div>
+        <div class="metric">
+          <span class="metric-val">94%</span>
+          <span class="metric-key">Precision</span>
+        </div>
+      </div>
+      <div class="project-stack">
+        <span class="stack-pill">Go</span>
+        <span class="stack-pill">Flink</span>
+        <span class="stack-pill">ClickHouse</span>
+        <span class="stack-pill">Python</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="section-header fade-up">
+    <span class="section-num">03</span>
+    <h2>Experience</h2>
+  </div>
+
+  <div class="timeline">
+
+    <div class="timeline-item fade-up">
+      <div class="timeline-date">2024 — Present</div>
+      <div class="timeline-role">Software Engineer</div>
+      <div class="timeline-company">KPMG India</div>
+      <ul class="timeline-bullets">
+        <li>Developed full-stack applications and internal platforms using React, Next.js, Node.js, Express.js, and MongoDB.</li>
+        <li>Designed and implemented scalable REST APIs and backend services to support enterprise workflows.</li>
+        <li>Built automation solutions that streamlined security testing, reporting, and compliance processes.</li>
+        <li>Integrated AI-powered capabilities and data processing pipelines to improve operational efficiency.</li>
+        <li>Collaborated with cross-functional teams to deliver secure, reliable, and maintainable software solutions.</li>
+        <li>Contributed to application security initiatives through secure code reviews and security-focused development practices.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item fade-up">
+      <div class="timeline-date">2025 — 2026</div>
+      <div class="timeline-role">Freelance Software Engineer</div>
+      <div class="timeline-company">Independent Consultant</div>
+      <ul class="timeline-bullets">
+        <li>Built custom web applications and backend systems for startups and small businesses.</li>
+        <li>Developed responsive user interfaces using React, JavaScript, and modern frontend technologies.</li>
+        <li>Designed database architectures and implemented scalable APIs for client applications.</li>
+        <li>Delivered end-to-end software solutions from requirement gathering to deployment.</li>
+        <li>Worked directly with clients to translate business requirements into high-quality technical solutions.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="fade-up">
+      <h2 class="contact-headline">Let's build something <em>great</em> together</h2>
+      <p class="contact-sub">I'm open to senior IC and staff-level roles at companies building infrastructure, developer tools, or fintech products. I prefer async-first, high-trust environments.</p>
+      <a href="mailto:mishravinesh18@gmail.com" class="btn-primary" style="display:inline-block;">Send me a message →</a>
+    </div>
+    <div class="contact-links fade-up">
+      <a class="contact-link" href="mailto:alex@morgan.dev">
+        <span class="contact-link-icon">✉</span>
+        <span class="contact-link-label">
+          <strong>Email</strong>
+          <span>mishravinesh18@gmail.com</span>
+        </span>
+        <span class="contact-link-arrow">→</span>
+      </a>
+      <a class="contact-link" href="#">
+        <span class="contact-link-icon">in</span>
+        <span class="contact-link-label">
+          <strong>LinkedIn</strong>
+          <span>linkedin.com/in/ravineshmishra</span>
+        </span>
+        <span class="contact-link-arrow">→</span>
+      </a>
+      <a class="contact-link" href="#">
+        <span class="contact-link-icon">◈</span>
+        <span class="contact-link-label">
+          <strong>GitHub</strong>
+          <span>github.com/Ravinesh18</span>
+        </span>
+        <span class="contact-link-arrow">→</span>
+      </a>
+      <!-- <a class="contact-link" href="#">
+        <span class="contact-link-icon">✍</span>
+        <span class="contact-link-label">
+          <strong>Blog</strong>
+          <span>alexmorgan.dev/writing</span>
+        </span>
+        <span class="contact-link-arrow">→</span>
+      </a> -->
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Ravinesh Mishra</span>
+  <span>Designed & built with care</span>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function loop() {
+    rx += (mx - rx) * 0.14;
+    ry += (my - ry) * 0.14;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(loop);
+  })();
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '14px'; cursor.style.height = '14px';
+      ring.style.width = '48px'; ring.style.height = '48px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '8px'; cursor.style.height = '8px';
+      ring.style.width = '32px'; ring.style.height = '32px';
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
