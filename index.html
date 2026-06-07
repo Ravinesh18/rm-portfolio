@@ -42,7 +42,7 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; justify-content: space-between; align-items: center;
     padding: 1rem 3rem;
-    background: rgba(245,243,239,0.88);
+    background: rgba(245,243,239,0.92);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
@@ -62,6 +62,54 @@
     transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--accent); }
+
+  /* Hamburger — hidden on desktop */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: transform 0.25s, opacity 0.25s;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Mobile menu */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 57px; left: 0; right: 0;
+    background: rgba(245,243,239,0.98);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    flex-direction: column;
+    gap: 1.25rem;
+    z-index: 99;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink-soft);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--accent); }
 
   /* ── HERO ── */
   .hero {
@@ -121,7 +169,7 @@
     margin-bottom: 2.5rem;
     line-height: 1.75;
   }
-  .hero-actions { display: flex; gap: 1rem; align-items: center; }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
   .btn-primary {
     display: inline-block;
     padding: 0.75rem 1.75rem;
@@ -474,13 +522,14 @@
   .contact-link-icon {
     font-size: 1.1rem;
     width: 36px; height: 36px;
+    flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
     background: var(--paper-warm);
     border-radius: 50%;
   }
-  .contact-link-label { flex: 1; }
+  .contact-link-label { flex: 1; min-width: 0; }
   .contact-link-label strong { display: block; font-weight: 500; }
-  .contact-link-label span { font-size: 0.8rem; color: var(--ink-muted); }
+  .contact-link-label span { font-size: 0.8rem; color: var(--ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .contact-link-arrow { color: var(--ink-muted); font-size: 0.9rem; }
 
   /* ── FOOTER ── */
@@ -492,6 +541,8 @@
     font-family: 'DM Mono', monospace;
     font-size: 0.72rem;
     letter-spacing: 0.05em;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   /* ── SCROLL ANIMATIONS ── */
@@ -501,8 +552,6 @@
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
   .fade-up.visible { opacity: 1; transform: translateY(0); }
-
-  @keyframes reveal { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0% 0 0); } }
 
   /* ── CURSOR DOT ── */
   .cursor {
@@ -521,6 +570,120 @@
     transform: translate(-50%, -50%);
     transition: transform 0.18s ease, width 0.3s, height 0.3s;
   }
+
+  /* ═══════════════════════════════════════
+     RESPONSIVE BREAKPOINTS
+  ═══════════════════════════════════════ */
+
+  /* ── TABLET (≤1024px) ── */
+  @media (max-width: 1024px) {
+    nav { padding: 1rem 2rem; }
+    section { padding: 5rem 3rem; }
+    footer { padding: 1.75rem 3rem; }
+
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero::before { display: none; }
+    .hero-left {
+      padding: 7rem 3rem 3rem;
+      background: var(--paper);
+    }
+    .hero-right {
+      padding: 2rem 3rem 4rem;
+      background: var(--paper-warm);
+      gap: 1.5rem;
+    }
+    .stat-stack { padding-top: 0; flex-direction: row; flex-wrap: wrap; gap: 0; }
+    .stat-item {
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 1rem 2rem 1rem 0;
+      border-bottom: none;
+      border-right: 1px solid var(--border);
+      margin-right: 2rem;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-size: 2.25rem; }
+
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured {
+      grid-column: span 1;
+      grid-template-columns: 1fr;
+    }
+    .project-visual { min-height: 180px; }
+
+    .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+  }
+
+  /* ── MOBILE (≤768px) ── */
+  @media (max-width: 768px) {
+    /* Nav */
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+
+    /* Sections */
+    section { padding: 4rem 1.5rem; }
+    footer { padding: 1.5rem; flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+
+    /* Hero */
+    .hero-left { padding: 6rem 1.5rem 2.5rem; }
+    .hero-right { padding: 2rem 1.5rem 3.5rem; }
+    h1 { font-size: clamp(2.5rem, 11vw, 4rem); }
+    .hero-bio { font-size: 0.97rem; }
+    .hero-actions { flex-direction: column; align-items: flex-start; width: 100%; }
+    .btn-primary, .btn-ghost { width: 100%; text-align: center; }
+
+    .stat-stack { flex-direction: column; gap: 0; }
+    .stat-item {
+      flex-direction: row;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      margin-right: 0;
+      align-items: baseline;
+    }
+    .stat-num { font-size: 2rem; }
+
+    /* About */
+    .skills-grid { grid-template-columns: 1fr; }
+
+    /* Projects */
+    .project-card { padding: 1.5rem; }
+    .project-card.featured { padding: 1.5rem; gap: 1.5rem; }
+    .project-title { font-size: 1.25rem; }
+    .code-snippet { font-size: 0.65rem; padding: 1rem; }
+
+    /* Experience */
+    .timeline { padding-left: 1.5rem; }
+    .timeline-item { padding: 0 0 2.5rem 1.5rem; }
+    .timeline-role { font-size: 1.2rem; }
+    .timeline-bullets li { font-size: 0.84rem; }
+
+    /* Contact */
+    .contact-headline { font-size: clamp(1.75rem, 7vw, 2.5rem); }
+    .contact-sub { font-size: 0.95rem; }
+    .contact-link { padding: 0.85rem 1rem; }
+    .contact-link-label span { display: none; }
+  }
+
+  /* ── SMALL MOBILE (≤480px) ── */
+  @media (max-width: 480px) {
+    h1 { font-size: clamp(2.2rem, 12vw, 3.5rem); }
+    .hero-eyebrow { font-size: 0.7rem; }
+    .hero-tech-strip { gap: 0.35rem; padding: 1rem; }
+    .tech-tag { font-size: 0.65rem; padding: 0.25rem 0.55rem; }
+    .section-header { flex-direction: column; gap: 0.35rem; margin-bottom: 2.5rem; }
+    .project-metrics { gap: 1rem; }
+    .metric-val { font-size: 1.1rem; }
+  }
+
+  /* Hide custom cursor on touch devices */
+  @media (hover: none) {
+    .cursor, .cursor-ring { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -537,7 +700,18 @@
     <li><a href="#experience">Experience</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" class="mobile-link">About</a>
+  <a href="#projects" class="mobile-link">Projects</a>
+  <a href="#experience" class="mobile-link">Experience</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -591,63 +765,29 @@
 
   <div class="about-grid">
     <div class="about-text fade-up">
-
-      <p>
-        I'm a Software Engineer passionate about building scalable web applications, backend services, and modern digital experiences. My expertise spans full-stack development, API design, system architecture, and automation, with a strong focus on writing clean, maintainable, and efficient code.
-      </p>
-
-      <p>
-        Throughout my career, I've worked across the software development lifecycle, designing and developing applications using technologies such as JavaScript, TypeScript, React, Next.js, Node.js, Express.js, and MongoDB. I enjoy turning complex business requirements into reliable and user-friendly solutions that deliver measurable value.
-      </p>
-
-      <p>
-        Beyond day-to-day development, I actively explore emerging technologies including Generative AI, Retrieval-Augmented Generation (RAG), Agentic AI, cloud-native architectures, and DevOps practices. I'm passionate about improving developer productivity, automating workflows, and building systems that scale efficiently.
-      </p>
-
-      <p>
-        Outside of work, I continuously sharpen my skills through personal projects, open-source contributions, and technical research. I enjoy solving challenging engineering problems, learning new technologies, and building software that creates meaningful impact.
-      </p>
-
+      <p>I'm a Software Engineer passionate about building scalable web applications, backend services, and modern digital experiences. My expertise spans full-stack development, API design, system architecture, and automation, with a strong focus on writing clean, maintainable, and efficient code.</p>
+      <p>Throughout my career, I've worked across the software development lifecycle, designing and developing applications using technologies such as JavaScript, TypeScript, React, Next.js, Node.js, Express.js, and MongoDB. I enjoy turning complex business requirements into reliable and user-friendly solutions that deliver measurable value.</p>
+      <p>Beyond day-to-day development, I actively explore emerging technologies including Generative AI, Retrieval-Augmented Generation (RAG), Agentic AI, cloud-native architectures, and DevOps practices. I'm passionate about improving developer productivity, automating workflows, and building systems that scale efficiently.</p>
+      <p>Outside of work, I continuously sharpen my skills through personal projects, open-source contributions, and technical research. I enjoy solving challenging engineering problems, learning new technologies, and building software that creates meaningful impact.</p>
     </div>
 
     <div class="skills-grid fade-up">
-
       <div class="skill-block">
         <div class="skill-block-title">Frontend</div>
-        <div class="skill-list">
-          React · Next.js · TypeScript<br>
-          JavaScript · HTML · CSS<br>
-          Tailwind CSS · Shadcn UI
-        </div>
+        <div class="skill-list">React · Next.js · TypeScript<br>JavaScript · HTML · CSS<br>Tailwind CSS · Shadcn UI</div>
       </div>
-
       <div class="skill-block">
         <div class="skill-block-title">Backend</div>
-        <div class="skill-list">
-          Node.js · Express.js<br>
-          REST APIs · Authentication<br>
-          Microservices · API Design
-        </div>
+        <div class="skill-list">Node.js · Express.js<br>REST APIs · Authentication<br>Microservices · API Design</div>
       </div>
-
       <div class="skill-block">
         <div class="skill-block-title">Database & Cloud</div>
-        <div class="skill-list">
-          MongoDB · PostgreSQL<br>
-          AWS · Docker<br>
-          CI/CD · Cloud Deployments
-        </div>
+        <div class="skill-list">MongoDB · PostgreSQL<br>AWS · Docker<br>CI/CD · Cloud Deployments</div>
       </div>
-
       <div class="skill-block">
         <div class="skill-block-title">AI & Engineering</div>
-        <div class="skill-list">
-          Generative AI · RAG<br>
-          LangChain · Agentic AI<br>
-          Automation · System Design
-        </div>
+        <div class="skill-list">Generative AI · RAG<br>LangChain · Agentic AI<br>Automation · System Design</div>
       </div>
-
     </div>
   </div>
 </section>
@@ -667,24 +807,13 @@
         <h3 class="project-title">Hermes — Real-time Payments Engine</h3>
         <p class="project-desc">End-to-end redesign of a payment processing core for a Series B fintech. Replaced a monolithic Rails app with a distributed Go service mesh, event-sourcing architecture, and idempotent transaction log.</p>
         <div class="project-metrics">
-          <div class="metric">
-            <span class="metric-val">99.999%</span>
-            <span class="metric-key">Uptime SLA</span>
-          </div>
-          <div class="metric">
-            <span class="metric-val">2.3ms</span>
-            <span class="metric-key">Median latency</span>
-          </div>
-          <div class="metric">
-            <span class="metric-val">12×</span>
-            <span class="metric-key">Throughput gain</span>
-          </div>
+          <div class="metric"><span class="metric-val">99.999%</span><span class="metric-key">Uptime SLA</span></div>
+          <div class="metric"><span class="metric-val">2.3ms</span><span class="metric-key">Median latency</span></div>
+          <div class="metric"><span class="metric-val">12×</span><span class="metric-key">Throughput gain</span></div>
         </div>
         <div class="project-stack">
-          <span class="stack-pill">Go</span>
-          <span class="stack-pill">Kafka</span>
-          <span class="stack-pill">CockroachDB</span>
-          <span class="stack-pill">Kubernetes</span>
+          <span class="stack-pill">Go</span><span class="stack-pill">Kafka</span>
+          <span class="stack-pill">CockroachDB</span><span class="stack-pill">Kubernetes</span>
           <span class="stack-pill">Temporal</span>
         </div>
       </div>
@@ -721,20 +850,12 @@
       <h3 class="project-title">Prism — Component Design System</h3>
       <p class="project-desc">Open-source React component library adopted by 60+ internal teams. Includes a token-based theming engine, Storybook integration, and automated visual regression tests.</p>
       <div class="project-metrics">
-        <div class="metric">
-          <span class="metric-val">200+</span>
-          <span class="metric-key">Components</span>
-        </div>
-        <div class="metric">
-          <span class="metric-val">4.8k</span>
-          <span class="metric-key">GitHub stars</span>
-        </div>
+        <div class="metric"><span class="metric-val">200+</span><span class="metric-key">Components</span></div>
+        <div class="metric"><span class="metric-val">4.8k</span><span class="metric-key">GitHub stars</span></div>
       </div>
       <div class="project-stack">
-        <span class="stack-pill">React</span>
-        <span class="stack-pill">TypeScript</span>
-        <span class="stack-pill">CSS vars</span>
-        <span class="stack-pill">Playwright</span>
+        <span class="stack-pill">React</span><span class="stack-pill">TypeScript</span>
+        <span class="stack-pill">CSS vars</span><span class="stack-pill">Playwright</span>
       </div>
     </a>
 
@@ -744,20 +865,12 @@
       <h3 class="project-title">Beacon — Anomaly Detection Platform</h3>
       <p class="project-desc">Near-real-time fraud detection pipeline processing 5M events/min. Uses streaming feature computation and an online learning model served via a low-latency Go inference engine.</p>
       <div class="project-metrics">
-        <div class="metric">
-          <span class="metric-val">5M</span>
-          <span class="metric-key">Events / min</span>
-        </div>
-        <div class="metric">
-          <span class="metric-val">94%</span>
-          <span class="metric-key">Precision</span>
-        </div>
+        <div class="metric"><span class="metric-val">5M</span><span class="metric-key">Events / min</span></div>
+        <div class="metric"><span class="metric-val">94%</span><span class="metric-key">Precision</span></div>
       </div>
       <div class="project-stack">
-        <span class="stack-pill">Go</span>
-        <span class="stack-pill">Flink</span>
-        <span class="stack-pill">ClickHouse</span>
-        <span class="stack-pill">Python</span>
+        <span class="stack-pill">Go</span><span class="stack-pill">Flink</span>
+        <span class="stack-pill">ClickHouse</span><span class="stack-pill">Python</span>
       </div>
     </a>
 
@@ -772,7 +885,6 @@
   </div>
 
   <div class="timeline">
-
     <div class="timeline-item fade-up">
       <div class="timeline-date">2024 — Present</div>
       <div class="timeline-role">Software Engineer</div>
@@ -799,7 +911,6 @@
         <li>Worked directly with clients to translate business requirements into high-quality technical solutions.</li>
       </ul>
     </div>
-
   </div>
 </section>
 
@@ -812,7 +923,7 @@
       <a href="mailto:mishravinesh18@gmail.com" class="btn-primary" style="display:inline-block;">Send me a message →</a>
     </div>
     <div class="contact-links fade-up">
-      <a class="contact-link" href="mailto:alex@morgan.dev">
+      <a class="contact-link" href="mailto:mishravinesh18@gmail.com">
         <span class="contact-link-icon">✉</span>
         <span class="contact-link-label">
           <strong>Email</strong>
@@ -836,14 +947,6 @@
         </span>
         <span class="contact-link-arrow">→</span>
       </a>
-      <!-- <a class="contact-link" href="#">
-        <span class="contact-link-icon">✍</span>
-        <span class="contact-link-label">
-          <strong>Blog</strong>
-          <span>alexmorgan.dev/writing</span>
-        </span>
-        <span class="contact-link-arrow">→</span>
-      </a> -->
     </div>
   </div>
 </section>
@@ -855,7 +958,7 @@
 </footer>
 
 <script>
-  // Cursor
+  // Custom cursor (desktop only)
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
   let mx = 0, my = 0, rx = 0, ry = 0;
@@ -880,6 +983,28 @@
     });
   });
 
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  // Close menu when a link is clicked
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    });
+  });
+  // Close menu on outside click
+  document.addEventListener('click', e => {
+    if (!nav.contains(e.target) && !mobileMenu.contains(e.target)) {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    }
+  });
+
   // Scroll reveal
   const observer = new IntersectionObserver(entries => {
     entries.forEach((entry, i) => {
@@ -888,7 +1013,7 @@
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.10 });
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 </script>
 </body>
